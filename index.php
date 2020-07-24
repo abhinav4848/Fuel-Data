@@ -114,8 +114,8 @@ $result = mysqli_query($link, $query);
                             </svg>
                         </div>
                     </div>
-                    <input type="text" class="form-control" id="got" name="got" readonly
-                        placeholder="Info will be calculated automatically">
+                    <input type="text" class="form-control" id="got" name="got"
+                        placeholder="How much fuel did you get?">
                 </div>
             </div>
 
@@ -166,19 +166,32 @@ $result = mysqli_query($link, $query);
     </script>
 
     <script type="text/javascript">
-    document.querySelector('#rate').addEventListener('keyup', calc, false);
+    document.querySelector('#rate').addEventListener('keyup', calcGot, false);
+    document.querySelector('#got').addEventListener('keyup', calcRate, false);
 
-    document.querySelector('#paid').addEventListener('keyup', calc, false);
 
-    function calc() {
-        let rate = document.getElementById("rate").value;
+    function calcGot() {
         let paid = document.getElementById("paid").value;
-        let got = parseFloat(paid) / parseFloat(rate);
+        let rate = document.getElementById("rate").value;
 
-        if (isNaN(parseFloat(got))) {
-            document.getElementById("got").value = "Info will be calculated automatically";
-        } else {
-            document.getElementById("got").value = got.toFixed(2);
+        if (!isNaN(parseFloat(paid))) {
+            if (!isNaN(parseFloat(rate))) {
+                got = parseFloat(paid) / parseFloat(rate);
+                document.getElementById("got").value = got.toFixed(2);
+
+            }
+        }
+    }
+
+    function calcRate() {
+        let paid = document.getElementById("paid").value;
+        let got = document.getElementById("got").value;
+
+        if (!isNaN(parseFloat(paid))) {
+            if (!isNaN(parseFloat(got))) {
+                rate = parseFloat(paid) / parseFloat(got);
+                document.getElementById("rate").value = rate.toFixed(2);
+            }
         }
     }
     </script>
