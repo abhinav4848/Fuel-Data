@@ -1,5 +1,10 @@
 <?php
+date_default_timezone_set("Asia/Kolkata");
 $link = mysqli_connect("localhost", "root", "", "spsdaurm_users");
+// Check connection
+if (mysqli_connect_errno()) {
+    die("Failed to connect to MySQL: " . mysqli_connect_error());
+}
 
 if (array_key_exists("submit", $_POST)) {
     
