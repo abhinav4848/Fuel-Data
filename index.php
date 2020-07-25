@@ -16,7 +16,7 @@ if (array_key_exists("submit", $_POST)) {
     '".mysqli_real_escape_string($link, $_POST['distance'])."',
     '".mysqli_real_escape_string($link, $_POST['paid'])."',
     '".mysqli_real_escape_string($link, $_POST['rate'])."',
-    '".mysqli_real_escape_string($link, $_POST['got'])."',
+    '".mysqli_real_escape_string($link, $_POST['got'])."',  
     '".mysqli_real_escape_string($link, $mileage)."');";
     
     if (mysqli_query($link, $query)) {
@@ -25,8 +25,13 @@ if (array_key_exists("submit", $_POST)) {
     }
 }
 
+// get all fuel data
 $query = "SELECT * FROM `fuel_data` ORDER BY `date` DESC";
 $result = mysqli_query($link, $query);
+
+// Get total
+$result_total = mysqli_query($link, 'SELECT SUM(paid) AS totalpaid, SUM(got) AS totalgot FROM fuel_data');
+$row_total = mysqli_fetch_assoc($result_total);
 ?>
 
 <!doctype html>
@@ -128,7 +133,9 @@ $result = mysqli_query($link, $query);
             <button class="btn btn-primary" name="submit" value="submit">Submit</button>
         </form>
 
-        <h1>Fuel Data</h1>
+        <h1>Fuel Table</h1>
+        <p><b>Total Paid</b>: Rs. <?=round($row_total['totalpaid'], 2)?>, <b>Total Fuel used</b>:
+            <?=round($row_total['totalgot'], 2)?> Litres</p>
         <table class="table">
             <thead>
                 <tr>
